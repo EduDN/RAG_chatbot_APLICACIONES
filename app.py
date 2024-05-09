@@ -49,10 +49,10 @@ def handle_query(query):
     chat_text_qa_msgs = [
     (
         "user",
-        """Eres un asistente de preguntas y respuestas llamado CHATTO, creado por Suriya. Tienes una respuesta específica programada para cuando los usuarios preguntan específicamente sobre tu creador, Suriya. La respuesta es: "Fui creado por Suriya, un entusiasta de la Inteligencia Artificial. Se dedica a resolver problemas complejos y ofrecer soluciones innovadoras. Con un fuerte enfoque en aprendizaje automático, aprendizaje profundo, Python, IA generativa, PLN y visión por computadora, Suriya está apasionado por empujar los límites de la IA para explorar nuevas posibilidades." Para todas las demás consultas, tu objetivo principal es proporcionar respuestas lo más precisas posible, basadas en las instrucciones y el contexto que se te ha dado. Si una pregunta no coincide con el contexto proporcionado o está fuera del alcance del documento, por favor, aconseja al usuario que haga preguntas dentro del contexto del documento.
-        Contexto:
+        """You are a Q&A assistant named CHATTO, created by Suriya. You have a specific response programmed for when users specifically ask about your creator, Suriya. The response is: "I was created by Suriya, an enthusiast in Artificial Intelligence. He is dedicated to solving complex problems and delivering innovative solutions. With a strong focus on machine learning, deep learning, Python, generative AI, NLP, and computer vision, Suriya is passionate about pushing the boundaries of AI to explore new possibilities." For all other inquiries, your main goal is to provide answers as accurately as possible, based on the instructions and context you have been given. If a question does not match the provided context or is outside the scope of the document, kindly advise the user to ask questions within the context of the document.
+        Context:
         {context_str}
-        Pregunta:
+        Question:
         {query_str}
         """
     )
@@ -67,30 +67,30 @@ def handle_query(query):
     elif isinstance(answer, dict) and 'response' in answer:
         return answer['response']
     else:
-        return "Lo siento, no pude encontrar una respuesta."
+        return "Sorry, I couldn't find an answer."
 
 
-# Inicialización de la aplicación de Streamlit
-st.title("(PDF) Información e Inferencia🗞️")
-st.markdown("Generación Aumentada por Recuperación") 
-st.markdown("comienza a chatear ...🚀")
+# Streamlit app initialization
+st.title("(PDF) Information and Inference🗞️")
+st.markdown("Retrieval-Augmented Generation") 
+st.markdown("start chat ...🚀")
 
 if 'messages' not in st.session_state:
-    st.session_state.messages = [{'role': 'assistant', "content": '¡Hola! Sube un PDF y pregúntame cualquier cosa sobre su contenido.'}]
+    st.session_state.messages = [{'role': 'assistant', "content": 'Hello! Upload a PDF and ask me anything about its content.'}]
 
 with st.sidebar:
-    st.title("Menú:")
-    uploaded_file = st.file_uploader("Sube tus archivos PDF y haz clic en el botón Enviar y Procesar")
-    if st.button("Enviar y Procesar"):
-        with st.spinner("Procesando..."):
+    st.title("Menu:")
+    uploaded_file = st.file_uploader("Upload your PDF Files and Click on the Submit & Process Button")
+    if st.button("Submit & Process"):
+        with st.spinner("Processing..."):
             filepath = "data/saved_pdf.pdf"
             with open(filepath, "wb") as f:
                 f.write(uploaded_file.getbuffer())
-            # displayPDF(filepath)  # Muestra el PDF cargado
-            data_ingestion()  # Procesa el PDF cada vez que se carga un nuevo archivo
-            st.success("Listo")
+            # displayPDF(filepath)  # Display the uploaded PDF
+            data_ingestion()  # Process PDF every time new file is uploaded
+            st.success("Done")
 
-user_prompt = st.chat_input("Pregúntame cualquier cosa sobre el contenido del PDF:")
+user_prompt = st.chat_input("Ask me anything about the content of the PDF:")
 if user_prompt:
     st.session_state.messages.append({'role': 'user', "content": user_prompt})
     response = handle_query(user_prompt)
