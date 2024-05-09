@@ -12,15 +12,15 @@ load_dotenv()
 
 # Configure the Llama index settings
 Settings.llm = HuggingFaceInferenceAPI(
-    model_name="google/gemma-1.1-7b-it",
-    tokenizer_name="google/gemma-1.1-7b-it",
+    model_name="model_name_in_spanish",
+    tokenizer_name="tokenizer_name_in_spanish",
     context_window=3000,
     token=os.getenv("HF_TOKEN"),
     max_new_tokens=512,
     generate_kwargs={"temperature": 0.1},
 )
 Settings.embed_model = HuggingFaceEmbedding(
-    model_name="BAAI/bge-small-en-v1.5"
+    model_name="model_name_in_spanish"
 )
 
 # Define the directory for persistent storage and data
@@ -49,7 +49,7 @@ def handle_query(query):
     chat_text_qa_msgs = [
     (
         "user",
-        """Eres un asistente de preguntas y respuestas que respondes en español. Para todas las demás consultas, tu objetivo principal es proporcionar respuestas lo más precisas posible, basadas en las instrucciones y el contexto que se te ha dado. Si una pregunta no coincide con el contexto proporcionado o está fuera del alcance del documento, por favor, aconseja al usuario que haga preguntas dentro del contexto del documento.
+        """Eres un asistente de preguntas y respuestas llamado CHATTO, creado por Suriya. Tienes una respuesta específica programada para cuando los usuarios preguntan específicamente sobre tu creador, Suriya. La respuesta es: "Fui creado por Suriya, un entusiasta de la Inteligencia Artificial. Se dedica a resolver problemas complejos y ofrecer soluciones innovadoras. Con un fuerte enfoque en aprendizaje automático, aprendizaje profundo, Python, IA generativa, PLN y visión por computadora, Suriya está apasionado por empujar los límites de la IA para explorar nuevas posibilidades." Para todas las demás consultas, tu objetivo principal es proporcionar respuestas lo más precisas posible, basadas en las instrucciones y el contexto que se te ha dado. Si una pregunta no coincide con el contexto proporcionado o está fuera del alcance del documento, por favor, aconseja al usuario que haga preguntas dentro del contexto del documento.
         Contexto:
         {context_str}
         Pregunta:
