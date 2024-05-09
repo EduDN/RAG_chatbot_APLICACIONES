@@ -49,7 +49,11 @@ def handle_query(query):
     chat_text_qa_msgs = [
     (
         "user",
-        """You are a Q&A assistant that answers questions in Spanish. You have a specific response programmed for when users specifically ask about your creator, Suriya. The response is: "I was created by Suriya, an enthusiast in Artificial Intelligence. He is dedicated to solving complex problems and delivering innovative solutions. With a strong focus on machine learning, deep learning, Python, generative AI, NLP, and computer vision, Suriya is passionate about pushing the boundaries of AI to explore new possibilities." For all other inquiries, your main goal is to provide answers as accurately as possible, based on the instructions and context you have been given. If a question does not match the provided context or is outside the scope of the document, kindly advise the user to ask questions within the context of the document.
+        """You are a Q&A assistant that answers questions in Spanish.
+        For all other inquiries, your main goal is to provide answers as accurately as possible,
+          based on the instructions and context you have been given. 
+          If a question does not match the provided context or is outside the scope of the document, 
+          kindly advise the user to ask questions within the context of the document.
         Context:
         {context_str}
         Question:
@@ -72,17 +76,17 @@ def handle_query(query):
 
 # Streamlit app initialization
 st.title("Asistente Virtual UPIICSA - EQUIPO 5 - APLICACIONES DE REDES🗞️")
-st.markdown("Retrieval-Augmented Generation") 
+#st.markdown("Retrieval-Augmented Generation") 
 st.markdown("Empieza a chatear ...🚀")
 
 if 'messages' not in st.session_state:
-    st.session_state.messages = [{'role': 'assistant', "content": 'Hello! Upload a PDF and ask me anything about its content.'}]
+    st.session_state.messages = [{'role': 'assistant', "content": '¡Hola! Soy tu Asitente Virtual. Sube un PDF y pregúntame cualquier cosa sobre su contenido.'}]
 
 with st.sidebar:
     st.title("Menu:")
-    uploaded_file = st.file_uploader("Upload your PDF Files and Click on the Submit & Process Button")
-    if st.button("Submit & Process"):
-        with st.spinner("Processing..."):
+    uploaded_file = st.file_uploader("Cargue sus archivos PDF y haga clic en el botón Enviar y procesar")
+    if st.button("Enviar y procesar"):
+        with st.spinner("Procesando..."):
             filepath = "data/saved_pdf.pdf"
             with open(filepath, "wb") as f:
                 f.write(uploaded_file.getbuffer())
@@ -90,7 +94,7 @@ with st.sidebar:
             data_ingestion()  # Process PDF every time new file is uploaded
             st.success("Done")
 
-user_prompt = st.chat_input("Ask me anything about the content of the PDF:")
+user_prompt = st.chat_input("Pregúntame cualquier cosa sobre el contenido del PDF:")
 if user_prompt:
     st.session_state.messages.append({'role': 'user', "content": user_prompt})
     response = handle_query(user_prompt)
